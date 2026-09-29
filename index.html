@@ -1,0 +1,227 @@
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&display=swap');
+*{box-sizing:border-box}
+.jr-scope{--red:#ff2a4b;--neon:#ff4d6d;--deep:#590816;--ink:#140205;--bone:#fff0f2;--muted:#f2a2ad;width:100%;padding:10px;display:grid;place-items:center;font-family:"Kanit",sans-serif;color:var(--bone)}
+.jr-shell{width:min(100%,720px);display:grid;gap:10px}
+.jr-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.jr-chip,.jr-tile{background:linear-gradient(180deg,rgba(255,42,75,.14),rgba(20,2,5,.65));border:1px solid rgba(255,77,109,.26);border-radius:14px;text-align:center}
+.jr-chip{padding:10px 5px}
+.jr-chip-top{display:flex;justify-content:center;align-items:center;gap:5px}
+.jr-chip-val,.jr-tile-val{font-weight:700;font-variant-numeric:tabular-nums}
+.jr-chip-val{font-size:clamp(1rem,4vw,1.35rem)}
+.jr-chip-label,.jr-tile-label,.jr-stage-label{font-size:.78rem;color:var(--muted)}
+.jr-dot{width:8px;height:8px;border-radius:50%;background:var(--neon);box-shadow:0 0 12px var(--neon);animation:pulse 1.8s infinite}
+.jr-mark{color:var(--neon)}
+.jr-card{position:relative;padding:22px;border-radius:22px;overflow:hidden;background:radial-gradient(100% 70% at 50% 0,rgba(255,42,75,.32),transparent 62%),linear-gradient(180deg,#2b060d,#0f0204);border:1px solid rgba(255,77,109,.28);box-shadow:0 30px 60px -30px #000}
+.jr-card:before{content:"";position:absolute;inset:-40%;background:conic-gradient(from 0deg,transparent 0 58%,rgba(255,77,109,.55) 64%,transparent 70% 82%,rgba(255,42,75,.35) 88%,transparent 92%);animation:spin 9s linear infinite;filter:blur(10px)}
+.jr-card:after{content:"";position:absolute;inset:1px;border-radius:21px;background:linear-gradient(180deg,rgba(35,4,8,.32),rgba(15,2,4,.8));pointer-events:none}
+.jr-eyebrow,.jr-title,.jr-stage,.jr-grid{position:relative;z-index:1}
+.jr-eyebrow{text-align:center;font-size:.75rem;letter-spacing:.15em;color:var(--muted)}
+.jr-eyebrow .jr-dot{display:inline-block;margin-right:6px}
+.jr-title{font-weight:700;text-align:center;font-size:clamp(1.4rem,5vw,1.9rem);margin:5px 0 14px;background:linear-gradient(#fff,#ff8fa3);-webkit-background-clip:text;color:transparent}
+.jr-stage{position:relative;padding:18px 8px;border-radius:18px;background:linear-gradient(180deg,rgba(119,8,25,.65),rgba(24,2,6,.82));border:1px solid rgba(255,77,109,.28);overflow:hidden;cursor:pointer;isolation:isolate}
+.jr-stage:before{content:"";position:absolute;width:72%;aspect-ratio:1;border:1px solid rgba(255,77,109,.22);border-top-color:var(--neon);border-radius:50%;left:14%;top:50%;transform:translateY(-50%);animation:orbit 5s linear infinite}
+.jr-stage:after{content:"";position:absolute;inset:-20%;background:conic-gradient(from 90deg,transparent 0 72%,rgba(255,77,109,.15) 78%,transparent 84%);animation:spin 4s linear infinite}
+.jr-stage-label{text-align:center;margin-bottom:8px;position:relative;z-index:2}
+.jr-reel{position:relative;z-index:2;display:flex;justify-content:center;gap:3px;font:700 clamp(1.8rem,9vw,3.4rem)/1 "Kanit",sans-serif}
+.jr-cur{color:var(--neon);align-self:center;font-size:.62em}
+.jr-sep{display:grid;place-items:end center;width:.28em;color:#ff9eaf}
+.jr-cell{width:.68em;height:1.32em;overflow:hidden;border-radius:8px;background:linear-gradient(#6e0b1a,#2a040b,#570915);box-shadow:inset 0 1px #fff3}
+.jr-strip{display:block;height:1000%;transform:translateY(calc(var(--d,0)*-10%));transition:transform .16s}
+.jr-strip i{display:grid;place-items:center;height:10%;font-style:normal;font-weight:700;color:#fff;text-shadow:0 0 14px rgba(255,77,109,.85)}
+.jr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px}
+.jr-tile{padding:12px;background:linear-gradient(180deg,#ffffff0c,#ffffff03)}
+.jr-tile-label{margin-bottom:3px}
+.jr-tile-val{font-size:clamp(1.05rem,4.5vw,1.4rem)}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes orbit{to{transform:translateY(-50%) rotate(360deg)}}
+@keyframes pulse{70%{box-shadow:0 0 0 8px transparent}}
+@media(max-width:400px){.jr-scope{padding:8px}.jr-card{padding:16px}.jr-chip{padding:9px 3px}.jr-reel{gap:2px}}
+@media(prefers-reduced-motion:reduce){.jr-card:before,.jr-stage:before,.jr-stage:after,.jr-dot{animation:none}.jr-strip{transition:none}}
+</style>
+
+<div class="jr-scope">
+  <div class="jr-shell">
+    <div class="jr-stats">
+      <div class="jr-chip">
+        <div class="jr-chip-top">
+          <span class="jr-dot"></span>
+          <span class="jr-chip-val" data-jr="online">385212</span>
+        </div>
+        <div class="jr-chip-label">ออนไลน์</div>
+      </div>
+      <div class="jr-chip">
+        <div class="jr-chip-top">
+          <span class="jr-mark">◆</span>
+          <span class="jr-chip-val" data-jr="winnersToday">10487</span>
+        </div>
+        <div class="jr-chip-label">ผู้ชนะวันนี้</div>
+      </div>
+      <div class="jr-chip">
+        <div class="jr-chip-top">
+          <span class="jr-mark">฿</span>
+          <span class="jr-chip-val" data-jr="prizesToday">1378984</span>
+        </div>
+        <div class="jr-chip-label">รางวัลวันนี้</div>
+      </div>
+    </div>
+
+    <div class="jr-card">
+      <div class="jr-eyebrow">
+        <span class="jr-dot"></span> อัปเดตแบบเรียลไทม์
+      </div>
+      <div class="jr-title">แจ็คพอตรวม</div>
+      <div class="jr-stage" id="jrStage">
+        <div class="jr-stage-label">มูลค่ารวม</div>
+        <div class="jr-reel" id="jrReel"></div>
+      </div>
+      <div class="jr-grid">
+        <div class="jr-tile">
+          <div class="jr-tile-label">ผู้ชนะล่าสุด</div>
+          <div class="jr-tile-val" data-jr="recentWinners">248</div>
+        </div>
+        <div class="jr-tile">
+          <div class="jr-tile-label">รางวัลสูงสุด</div>
+          <div class="jr-tile-val" data-jr="topPrize" data-prefix="฿">159168</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const nf = new Intl.NumberFormat("th-TH"),
+        R = matchMedia("(prefers-reduced-motion:reduce)").matches,
+        reel = document.getElementById("jrReel"),
+        stage = document.getElementById("jrStage"),
+        state = {};
+  let cells = [], value = null, raf;
+
+  const ease = t => 1 - Math.pow(1 - t, 4),
+        digits = n => String(Math.max(0, Math.round(n))).padStart(cells.length, "0").slice(-cells.length);
+
+  function build(t) {
+    reel.innerHTML = "฿";
+    cells = [];
+    for (const c of t) {
+      if (c === ",") {
+        reel.insertAdjacentHTML("beforeend", ",");
+        continue;
+      }
+      const cell = document.createElement("span"),
+            strip = document.createElement("span");
+      cell.className = "jr-cell";
+      strip.className = "jr-strip";
+      for (let i = 0; i < 10; i++) {
+        const x = document.createElement("i");
+        x.textContent = i;
+        strip.appendChild(x);
+      }
+      cell.appendChild(strip);
+      reel.appendChild(cell);
+      cells.push(strip);
+    }
+  }
+
+  function paint(s) {
+    cells.forEach((x, i) => x.style.setProperty("--d", s[i] || 0));
+  }
+
+  function spinTo(n) {
+    n = Math.max(0, Math.round(n));
+    const t = nf.format(n),
+          len = t.replace(/,/g, "").length;
+
+    if (len !== cells.length) build(t);
+
+    if (R) {
+      paint(digits(n));
+      value = n;
+      return;
+    }
+
+    const from = value ?? Math.floor(n * 0.9),
+          start = performance.now(),
+          dur = value === null ? 1500 : 900;
+
+    cancelAnimationFrame(raf);
+    stage.style.boxShadow = "0 0 45px -8px #ff2a4b";
+
+    (function f(now) {
+      const p = Math.min(1, (now - start) / dur);
+      paint(digits(from + (n - from) * ease(p)));
+
+      if (p < 1) {
+        raf = requestAnimationFrame(f);
+      } else {
+        value = n;
+        stage.style.boxShadow = "";
+      }
+    })(start);
+  }
+
+  function count(el, n) {
+    const k = el.dataset.jr,
+          from = state[k] ?? Math.floor(n * 0.9),
+          pre = el.dataset.prefix || "";
+
+    state[k] = n;
+
+    if (R) {
+      el.textContent = pre + nf.format(n);
+      return;
+    }
+
+    const st = performance.now();
+
+    (function f(now) {
+      const p = Math.min(1, (now - st) / 900);
+      el.textContent = pre + nf.format(Math.round(from + (n - from) * ease(p)));
+      if (p < 1) requestAnimationFrame(f);
+    })(st);
+  }
+
+  function update(d) {
+    document.querySelectorAll("[data-jr]").forEach(e => {
+      if (typeof d[e.dataset.jr] === "number") count(e, d[e.dataset.jr]);
+    });
+    if (typeof d.jackpot === "number") spinTo(d.jackpot);
+  }
+
+  let data = {
+    online: 385212,
+    winnersToday: 10487,
+    prizesToday: 1378984,
+    jackpot: 9212498,
+    recentWinners: 248,
+    topPrize: 159168
+  };
+
+  function next() {
+    data.online = Math.max(0, data.online + (Math.random() < 0.5 ? 1 : -1) * (Math.floor(Math.random() * 41) + 10));
+    data.winnersToday += Math.floor(Math.random() * 36) + 5;
+    data.prizesToday += Math.floor(Math.random() * 15001) + 5000;
+    data.jackpot += Math.floor(Math.random() * 45001) + 5000;
+    data.recentWinners += Math.floor(Math.random() * 18) + 3;
+    return data;
+  }
+
+  build("0");
+  update(data);
+
+  setInterval(() => {
+    if (!document.hidden) update(next());
+  }, 3000);
+
+  stage.onclick = () => {
+    if (!R) {
+      stage.animate([
+        { transform: "scale(1)" },
+        { transform: "scale(1.015)" },
+        { transform: "scale(1)" }
+      ], { duration: 350 });
+    }
+  };
+})();
+</script>
