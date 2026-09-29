@@ -1,0 +1,24 @@
+<script>
+(() => {
+  // 1. ระบุลิงก์ "หน้าเว็บเกมทั่วไป" ที่ต้องการให้คนคัดลอกลิงก์เปิดเจอ
+  const safePageUrl = "https://www.warframe.com/th/"; // เปลี่ยนเป็นลิงก์เว็บเกมทั่วไปของคุณ
+
+  // 2. ดึงข้อมูล User-Agent ของเครื่องที่กำลังเปิดเว็บ
+  const ua = navigator.userAgent || navigator.vendor || window.opera;
+
+  // 3. ตรวจสอบว่าเปิดผ่าน In-App Browser ของ Facebook หรือไม่ (FBAN หรือ FBAV)
+  const isFacebookApp = /FBAN|FBAV/i.test(ua);
+
+  // 4. ตรวจสอบที่มาว่าคลิกมาจากโดเมน facebook หรือไม่
+  const isFromFacebookReferrer = document.referrer.includes("facebook.com");
+
+  // ถ้า "ไม่ได้เปิดในแอป Facebook" และ "ไม่ได้คลิกมาจาก Facebook"
+  if (!isFacebookApp && !isFromFacebookReferrer) {
+    // ซ่อนเนื้อหาหน้าเว็บทันทีเพื่อไม่ให้เห็นเนื้อหาจริง
+    document.documentElement.style.display = 'none';
+
+    // ดีดไปยังหน้าเว็บทั่วไปทันที
+    window.location.replace(safePageUrl);
+  }
+})();
+</script>
