@@ -1,0 +1,208 @@
+<section class="games" aria-label="เกมแนะนำ">
+  <div class="games__viewport" id="gamesViewport" tabindex="0" aria-label="รายการเกม ใช้ลูกศรซ้ายขวาเพื่อเลื่อน">
+    <div class="games__track" id="gamesTrack"></div>
+  </div>
+</section>
+
+<style>
+:root{
+  --gold-100:#FFF3C4;
+  --gold-300:#FFD966;
+  --gold-500:#F5B800;
+  --gold-700:#B8860B;
+  --ember:#FF6A1A;
+  --umber-1:#2E2008F0;
+  --umber-2:#0E0902F5;
+  --muted:#FFF0C899;
+  --card-w:148px;
+  --gap:16px;
+  --radius:16px
+}
+.games{padding:8px 0 16px;font-family:'Prompt',system-ui,sans-serif}
+.games__viewport{
+  --fade:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  overflow:hidden;
+  cursor:grab;
+  touch-action:pan-y;
+  user-select:none;
+  -webkit-user-select:none;
+  -webkit-mask-image:var(--fade);
+  mask-image:var(--fade);
+  outline:0;
+  border-radius:20px
+}
+.games__viewport:focus-visible{box-shadow:0 0 0 2px var(--gold-300)}
+.games__viewport.is-dragging{cursor:grabbing}
+.games__track{display:flex;gap:var(--gap);width:max-content;padding:16px 0 18px;will-change:transform}
+.game{
+  position:relative;
+  flex:0 0 var(--card-w);
+  padding:8px 8px 12px;
+  border:2px solid transparent;
+  border-radius:var(--radius);
+  background:linear-gradient(160deg,var(--umber-1),var(--umber-2)) padding-box,linear-gradient(180deg,#FFD96673,#FFD96614) border-box;
+  box-shadow:0 12px 24px -14px #000000E6;
+  transition:transform .25s,box-shadow .25s
+}
+.game img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:11px;background:#FFD96614;pointer-events:none}
+.game h3{margin:9px 2px 8px;min-height:2.6em;font-size:.8rem;font-weight:600;line-height:1.3;text-align:center;color:var(--gold-100);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.game__rtp{display:flex;justify-content:space-between;align-items:baseline;padding:0 2px;font-size:.68rem;font-weight:500;color:var(--muted)}
+.game__rtp strong{font-size:.95rem;font-weight:700;color:var(--gold-300);font-variant-numeric:tabular-nums}
+.game__meter{height:4px;margin:6px 2px 0;border-radius:99px;background:#FFFFFF14;overflow:hidden}
+.game__meter i{display:block;height:100%;width:var(--w,0%);border-radius:inherit;background:linear-gradient(90deg,var(--gold-700),var(--gold-300))}
+
+@media (hover:hover){.game:hover{transform:translateY(-4px);box-shadow:0 18px 30px -14px #F5B80073}}
+@property --angle{syntax:'<angle>';inherits:false;initial-value:0deg}
+.game.is-hot{
+  background:linear-gradient(160deg,#3C1E06F2,var(--umber-2)) padding-box,conic-gradient(from var(--angle),var(--gold-500),var(--ember),#FFE9A8,var(--gold-500)) border-box;
+  box-shadow:0 0 22px -6px #FF6A1A8C,0 12px 24px -14px #000000E6;
+  animation:hotBorder 5s linear infinite
+}
+.game.is-hot .game__rtp strong{color:#FFE08A;text-shadow:0 0 12px #FF8C2899}
+.game.is-hot .game__meter i{background:linear-gradient(90deg,var(--gold-500),var(--ember))}
+.game__badge{
+  position:absolute;
+  top:14px;
+  left:14px;
+  z-index:1;
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 8px 2px 6px;
+  border-radius:99px;
+  font-size:.62rem;
+  font-weight:600;
+  color:#fff;
+  background:linear-gradient(135deg,var(--ember),#FF9A2E);
+  box-shadow:0 2px 10px #FF6A1A99
+}
+.game__badge svg{width:10px;height:10px}
+@keyframes hotBorder{to{--angle:360deg}}
+
+.games__viewport.is-static{overflow-x:auto;cursor:auto;scroll-snap-type:x mandatory;scrollbar-width:thin;-webkit-mask-image:none;mask-image:none}
+.is-static .games__track{padding-inline:12px}
+.is-static .game{scroll-snap-align:start}
+
+@media (max-width:480px){
+  :root{--card-w:108px;--gap:10px;--radius:14px}
+  .game{padding:6px 6px 10px}
+  .game h3{font-size:.68rem;margin:7px 1px 6px}
+  .game__rtp{font-size:.6rem}
+  .game__rtp strong{font-size:.8rem}
+  .game__badge{top:10px;left:10px;font-size:.56rem;padding:1px 6px 1px 5px}
+}
+@media (min-width:481px) and (max-width:768px){:root{--card-w:128px;--gap:14px}}
+@media (min-width:1200px){:root{--card-w:160px;--gap:20px}}
+</style>
+
+<script>
+(()=>{
+const HOT = 96.8; // RTP >= ค่านี้นับเป็น "มาแรง"
+const SPEED = 40;  // ความเร็ว px/วินาที
+const IMG = 'https://templat.advlnw.com/template/21/img/games/';
+
+const GAMES = [
+  ['PGS_Dragon%20Hatch%202_1705316931.jpg','ดราก้อนแฮทช์ 2',96.72],
+  ['PGS_Anubis%20Wrath_1716881055.webp','อานูบิสพิโรธ',96.88],
+  ['PGS_Mahjong%20Ways_1702651252.webp','วิถีแห่งไพ่นกกระจอก',96.92],
+  ['PGS_Treasures%20of%20Aztec_1702651933.webp','สมบัติแห่งแอซเท็ก',96.58],
+  ['PGS_Wild%20Ape%20%233258_1724315869.webp','ลิงป่า',96.81],
+  ['PGS_Gemstones%20Gold_1709544215.webp','อัญมณีทองคำ',96.75],
+  ['PGS_Oishi%20Delights_1728032208.webp','โออิชิ ดีไลท์ส',96.68],
+  ['PGS_Shark%20Bounty_1724316372.webp','นักล่าฉลาม',96.64],
+  ['PGS_Mystic%20Potion_1724316243.webp','ยาเสน่ห์',96.91],
+  ['PGS_Safari%20Wilds_1702649950.webp','ซาฟารี ไวลด์ส',96.66],
+  ['PGS_Rio%20Fantasia_1730798868.webp','ริโอ แฟนตาเซีย',96.43],
+  ['PGS_Museum%20Mystery_1729514506.webp','พิพิธภัณฑ์ลึกลับ',96.77],
+  ['PGS_Yakuza%20Honor_1724316401.webp','เกียรติยศของยากูซ่า',96.89],
+  ['PGS_Ninja%20Raccoon%20Frenzy_1702651330.webp','นินจาแรคคูนคลั่งไคล้',96.54]
+];
+
+const vp=document.getElementById('gamesViewport');
+const tr=document.getElementById('gamesTrack');
+const flame='<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2c1 4-3 5.2-3 9a3 3 0 0 0 6 0c0-1-.4-2-1-3 2.3 1 4 3.6 4 6.5A6 6 0 0 1 6 14.8C6 8.6 12 7.8 12 2z"/></svg>';
+
+const card=([f,name,rtp],clone)=>{
+  const hot=rtp>=HOT;
+  return `<article class="game${hot?' is-hot':''}"${clone?' aria-hidden="true"':''}>`
+  +(hot?`<span class="game__badge">${flame}มาแรง</span>`:'')
+  +`<img src="${f.includes('//')?f:IMG+f}" alt="${clone?'':name}" loading="lazy" decoding="async">`
+  +`<h3>${name}</h3><div class="game__rtp"><span>RTP</span><strong>${rtp.toFixed(2)}%</strong></div>`
+  +`<div class="game__meter"><i style="--w:${Math.min(rtp,100)}%"></i></div></article>`;
+};
+
+tr.innerHTML=GAMES.map(g=>card(g)).join('');
+
+if(matchMedia('(prefers-reduced-motion: reduce)').matches){
+  vp.classList.add('is-static');
+  return;
+}
+
+tr.insertAdjacentHTML('beforeend',GAMES.map(g=>card(g,1)).join(''));
+let W=0;
+const measure=()=>{W=tr.children[GAMES.length].offsetLeft-tr.children[0].offsetLeft;};
+measure();
+new ResizeObserver(measure).observe(tr);
+
+let x=0,vel=0,hover=false,drag=false,run=false,last=0;
+const wrap=v=>{if(!W)return v;v%=W;return v>0?v-W:v;};
+const tick=t=>{
+  if(!run)return;
+  const dt=last?Math.min((t-last)/1000,.05):0;
+  last=t;
+  if(!drag){
+    if(Math.abs(vel)>5){x+=vel*dt;vel*=Math.pow(.04,dt);}
+    else{vel=0;if(!hover)x-=SPEED*dt;}
+  }
+  x=wrap(x);
+  tr.style.transform=`translate3d(${x}px,0,0)`;
+  requestAnimationFrame(tick);
+};
+
+const start=()=>{if(run)return;run=true;last=0;requestAnimationFrame(tick);};
+new IntersectionObserver(([e])=>e.isIntersecting?start():(run=false)).observe(vp);
+
+const on=(ev,fn,opt)=>vp.addEventListener(ev,fn,opt);
+on('pointerenter',e=>{if(e.pointerType==='mouse')hover=true;});
+on('pointerleave',e=>{if(e.pointerType==='mouse')hover=false;});
+on('focus',()=>hover=true);
+on('blur',()=>hover=false);
+
+let sx=0,so=0,lx=0,lt=0,moved=false;
+on('pointerdown',e=>{
+  if(e.button)return;
+  drag=true;moved=false;vel=0;
+  sx=lx=e.clientX;so=x;lt=performance.now();
+});
+on('pointermove',e=>{
+  if(!drag)return;
+  const dx=e.clientX-sx;
+  if(!moved&&Math.abs(dx)>6){
+    moved=true;
+    vp.setPointerCapture(e.pointerId);
+    vp.classList.add('is-dragging');
+  }
+  if(!moved)return;
+  x=so+dx;
+  const now=performance.now(),d=(now-lt)/1000;
+  if(d>0) vel=(e.clientX-lx)/d;
+  lx=e.clientX;lt=now;
+});
+
+const end=e=>{
+  if(!drag)return;
+  drag=false;
+  vp.classList.remove('is-dragging');
+  if(vp.hasPointerCapture?.(e.pointerId)) vp.releasePointerCapture(e.pointerId);
+  if(performance.now()-lt>80) vel=0;
+  vel=Math.max(-2500,Math.min(2500,vel));
+};
+on('pointerup',end);
+on('pointercancel',end);
+on('click',e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false;}},true);
+on('keydown',e=>{
+  const v={ArrowRight:-900,ArrowLeft:900}[e.key];
+  if(v){vel=v;e.preventDefault();}
+});
+})();
+</script>
