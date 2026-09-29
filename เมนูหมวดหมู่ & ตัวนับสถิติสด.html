@@ -1,0 +1,347 @@
+<div id="nbaMenu">
+<style>
+#nbaMenu,#nbaMenu *{box-sizing:border-box}
+
+#nbaMenu{
+  --red:#e10f2b;
+  --hot:#ff3b55;
+  --deep:#760015;
+  --dark:#3f0010;
+  --soft:#fff3f5;
+  width:min(680px,100%);
+  margin:0 auto;
+  padding:0;
+  font:12px Tahoma,"Noto Sans Thai",Arial,sans-serif;
+  color:#fff;
+  background:transparent!important;
+}
+
+#nbaMenu .panel{
+  position:relative;
+  overflow:hidden;
+  width:100%;
+  padding:14px;
+  border:1px solid #ffffff38;
+  border-radius:24px;
+  background:
+    radial-gradient(circle at 10% 0%,#ff405830 0,transparent 36%),
+    radial-gradient(circle at 100% 100%,#a0002440 0,transparent 42%),
+    linear-gradient(145deg,#25000bfa,#600018f2 48%,#250009f5);
+  box-shadow:0 12px 35px #4d001c52,inset 0 1px #ffffff1c;
+  backdrop-filter:blur(16px);
+}
+
+#nbaMenu .panel:before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(120deg,transparent 20%,#fff1 50%,transparent 80%);
+  transform:translateX(-120%);
+  animation:panelShine 6s ease-in-out infinite;
+  pointer-events:none;
+}
+
+#nbaMenu .topline{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  margin:0 0 11px;
+  font-weight:900;
+  font-size:12px;
+  letter-spacing:.2px;
+  color:#fff;
+  text-shadow:0 2px 10px #0008;
+}
+
+#nbaMenu .topline:before,
+#nbaMenu .topline:after{
+  content:"";
+  flex:1;
+  height:1px;
+  background:linear-gradient(90deg,transparent,#ff6478aa);
+}
+
+#nbaMenu .topline:after{
+  background:linear-gradient(90deg,#ff6478aa,transparent);
+}
+
+#nbaMenu .cats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+  position:relative;
+  z-index:2;
+}
+
+#nbaMenu .cat{
+  position:relative;
+  overflow:hidden;
+  min-width:0;
+  padding:9px 5px;
+  border:1px solid #ffffff52;
+  border-radius:14px;
+  color:#fff;
+  font:900 11px/1.2 Tahoma,"Noto Sans Thai",Arial,sans-serif;
+  text-align:center;
+  white-space:nowrap;
+  cursor:pointer;
+  background:linear-gradient(145deg,#ff4258,#c50029 55%,#8c001c);
+  box-shadow:
+    0 5px 14px #4b001b55,
+    inset 0 1px #ffffff55,
+    inset 0 -1px #46000e66;
+  transition:transform .2s,box-shadow .2s,filter .2s;
+}
+
+#nbaMenu .cat:before{
+  content:"";
+  position:absolute;
+  inset:1px;
+  border-radius:13px;
+  border:1px solid #ffffff18;
+  pointer-events:none;
+}
+
+#nbaMenu .cat:after{
+  content:"";
+  position:absolute;
+  top:-70%;
+  left:-70%;
+  width:34%;
+  height:240%;
+  background:linear-gradient(90deg,transparent,#fff9,transparent);
+  transform:skewX(-22deg);
+  animation:shine 3.8s ease-in-out infinite;
+}
+
+#nbaMenu .cat:nth-child(2):after{animation-delay:.2s}
+#nbaMenu .cat:nth-child(3):after{animation-delay:.4s}
+#nbaMenu .cat:nth-child(4):after{animation-delay:.6s}
+
+#nbaMenu .cat:hover{
+  transform:translateY(-2px);
+  filter:brightness(1.1);
+  box-shadow:
+    0 8px 20px #ff163e3b,
+    0 0 0 1px #ff617344,
+    inset 0 1px #ffffff66;
+}
+
+#nbaMenu .cat:active{
+  transform:scale(.97);
+}
+
+#nbaMenu .stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:9px;
+  position:relative;
+  z-index:2;
+}
+
+#nbaMenu .stat{
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  min-height:44px;
+  padding:8px;
+  border:1px solid #ffffff42;
+  border-radius:15px;
+  color:#fff;
+  font-weight:800;
+  white-space:nowrap;
+  background:linear-gradient(145deg,#ffffff18,#ffffff08);
+  box-shadow:inset 0 1px #ffffff18,0 5px 16px #21000b38;
+  backdrop-filter:blur(10px);
+}
+
+#nbaMenu .stat:first-child{
+  background:linear-gradient(145deg,#ff23431f,#ff234308);
+}
+
+#nbaMenu .ico{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:18px;
+  min-width:18px;
+}
+
+#nbaMenu .liveDot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#ff304e;
+  box-shadow:
+    0 0 0 4px #ff304e15,
+    0 0 14px #ff304e;
+  animation:pulse 1.5s infinite;
+}
+
+#nbaMenu .num{
+  margin-left:2px;
+  color:#fff;
+  font-weight:900;
+  font-variant-numeric:tabular-nums;
+  text-shadow:0 0 12px #ff314d66;
+}
+
+#nbaMenu .sep{
+  display:inline-block;
+  width:1px;
+  height:14px;
+  background:#ffffff2b;
+  margin:0 2px;
+}
+
+#nbaMenu .badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-left:4px;
+  padding:2px 5px;
+  border-radius:99px;
+  font-size:8px;
+  font-weight:900;
+  color:#fff;
+  background:#ff304e22;
+  border:1px solid #ff687a45;
+}
+
+#nbaMenu .flash{
+  animation:flash .42s ease;
+}
+
+@keyframes pulse{
+  50%{
+    transform:scale(1.16);
+    box-shadow:
+      0 0 0 5px #ff304e12,
+      0 0 18px #ff304e;
+  }
+}
+
+@keyframes shine{
+  0%,18%{left:-70%;opacity:0}
+  28%{opacity:.9}
+  52%{left:135%;opacity:.7}
+  62%,100%{left:135%;opacity:0}
+}
+
+@keyframes panelShine{
+  0%,65%{
+    transform:translateX(-120%);
+    opacity:0;
+  }
+  72%{opacity:.55}
+  84%,100%{
+    transform:translateX(120%);
+    opacity:0;
+  }
+}
+
+@keyframes flash{
+  45%{
+    transform:translateY(-2px) scale(1.045);
+    box-shadow:
+      0 0 10px #fff8,
+      0 0 22px #ff2343a8,
+      inset 0 1px #fff;
+  }
+}
+
+@media(max-width:520px){
+  #nbaMenu{padding:0;}
+  #nbaMenu .panel{padding:11px;border-radius:20px;}
+  #nbaMenu .topline{margin-bottom:9px;font-size:11px;}
+  #nbaMenu .cats,#nbaMenu .stats{gap:5px;}
+  #nbaMenu .cat{padding:8px 3px;font-size:10px;border-radius:12px;}
+  #nbaMenu .stat{min-height:40px;padding:7px 4px;font-size:9px;border-radius:13px;}
+  #nbaMenu .ico{width:15px;min-width:15px;}
+  #nbaMenu .liveDot{width:8px;height:8px;}
+  #nbaMenu .badge{display:none;}
+}
+
+@media(max-width:370px){
+  #nbaMenu .cat{font-size:9px;padding:7px 2px;}
+  #nbaMenu .stat{font-size:8px;}
+  #nbaMenu .num{font-size:9px;}
+}
+</style>
+
+<section class="menu" aria-label="เมนูเกมและข้อมูลสมาชิก">
+  <div class="panel">
+    <div class="topline">หมวดหมู่ยอดนิยม</div>
+
+    <nav class="cats" aria-label="ประเภทเกม">
+      <button class="cat" type="button">หวย</button>
+      <button class="cat" type="button">สล็อต</button>
+      <button class="cat" type="button">บาคาร่า</button>
+      <button class="cat" type="button">คาสิโนออนไลน์</button>
+    </nav>
+
+    <div class="stats">
+      <div class="stat">
+        <span class="ico"><i class="liveDot"></i></span>
+        <span>ออนไลน์ตอนนี้</span>
+        <span class="sep"></span>
+        <strong class="num" data-online>328,800</strong>
+        <span class="badge">LIVE</span>
+      </div>
+
+      <div class="stat">
+        <span class="ico">👥</span>
+        <span>สมาชิกทั้งหมด</span>
+        <span class="sep"></span>
+        <strong class="num" data-members>643,912</strong>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(()=> {
+  const r=document.getElementById("nbaMenu"),
+        o=r.querySelector("[data-online]"),
+        m=r.querySelector("[data-members]");
+
+  let online=328800,members=643912,busy=false;
+  const f=n=>n.toLocaleString("en-US");
+
+  o.textContent=f(online);
+  m.textContent=f(members);
+
+  setInterval(()=>{
+    if(busy)return;
+    busy=true;
+
+    const add=Math.floor(Math.random()*91)+10;
+    const target=online+add;
+
+    const step=setInterval(()=>{
+      online++;
+      o.textContent=f(online);
+
+      if(online>=target){
+        clearInterval(step);
+        busy=false;
+      }
+    },15);
+  },2000);
+
+  r.querySelectorAll(".cat").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      btn.classList.remove("flash");
+      void btn.offsetWidth;
+      btn.classList.add("flash");
+      setTimeout(()=>btn.classList.remove("flash"),430);
+    });
+  });
+})();
+</script>
+</div>
