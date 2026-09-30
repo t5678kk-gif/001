@@ -1,0 +1,72 @@
+<style>
+.banner-motion-box {
+  position: relative;
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 10px 8px;
+  display: flex;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+/* แสงฟุ้งด้านหลังแบบอยู่นิ่งๆ ไม่เคลื่อนไหว (โหลดครั้งเดียว ไม่กินสเปก) */
+.banner-ambient {
+  position: absolute;
+  top: 8px;
+  left: 10px;
+  right: 10px;
+  bottom: 8px;
+  background: radial-gradient(ellipse at 50% 50%, rgba(255, 50, 0, 0.45) 0%, rgba(255, 170, 0, 0.25) 55%, transparent 75%);
+  filter: blur(18px);
+  opacity: 0.85;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* กรอบภาพพร้อมแสงนีออนเรืองแสงสีทอง-แดงแบบคงที่ */
+.banner-inner {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  z-index: 1;
+  background: #000;
+  border: 1.5px solid rgba(255, 215, 0, 0.65);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7), 
+              0 0 25px rgba(255, 50, 20, 0.4), 
+              0 0 10px rgba(255, 200, 0, 0.35);
+  transition: transform 0.2s ease;
+  box-sizing: border-box;
+}
+
+.banner-inner:hover {
+  transform: translateY(-2px);
+}
+
+.banner-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+@media (max-width: 576px) {
+  .banner-motion-box { padding: 6px 4px; }
+  .banner-inner { border-radius: 14px; }
+  .banner-img { border-radius: 12px; }
+  .banner-ambient { top: 6px; left: 6px; right: 6px; bottom: 6px; filter: blur(12px); opacity: 0.7; }
+}
+</style>
+
+<div class="banner-motion-box">
+  <div class="banner-ambient"></div>
+  <div class="banner-inner">
+    <img class="banner-img"
+         src="https://media.mssg.space/thumbnails/medium/w/6ab822000b31e58f7b64be76/websites/6ab822107aa4cf374ab37dbb/3144171e-9609-4985-80cb-64ec74ab0f3b_(1)_(1)_1790547305636.png"
+         alt="Banner"
+         fetchpriority="high"
+         decoding="async"
+         loading="eager">
+  </div>
+</div>
