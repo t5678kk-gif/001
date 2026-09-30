@@ -1,0 +1,237 @@
+<!-- ===== วิดเจ็ตเมนูเกมและสถิติสมาชิก (โทนแดง) ===== -->
+<div class="nbaMenu" aria-label="เมนูเกมและข้อมูลสมาชิก">
+  <style>
+    .nbaMenu, .nbaMenu * { box-sizing: border-box; }
+
+    .nbaMenu {
+      --red: #ef233c;
+      --red-dark: #a0001d;
+      --red-light: #fff0f3;
+      width: min(700px, 100%);
+      margin: 0 auto;
+      padding: 16px 22px 18px;
+      overflow: hidden;
+      color: var(--red);
+      font-family: Tahoma, "Noto Sans Thai", Arial, sans-serif;
+      background: transparent;
+    }
+
+    /* แถบหมวดหมู่เกม 4 ปุ่ม */
+    .nbaMenu__categories {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      width: 86%;
+      gap: 6px;
+      margin: 0 auto 14px;
+    }
+
+    .nbaMenu__category {
+      position: relative;
+      overflow: hidden;
+      min-width: 0;
+      padding: 5px 4px;
+      border: 1.5px solid rgba(255,255,255,.9);
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      line-height: 1.2;
+      text-align: center;
+      text-decoration: none;
+      white-space: nowrap;
+      font-family: inherit;
+      cursor: pointer;
+      background: linear-gradient(180deg, #ff4960, #c80027);
+      box-shadow: 0 4px 12px rgba(180,0,32,.28), inset 0 1px rgba(255,255,255,.35);
+      transition: transform .18s ease, filter .18s ease, box-shadow .18s ease;
+    }
+
+    /* แสงวิ่งบนปุ่มหมวดหมู่ */
+    .nbaMenu__category::after {
+      content: "";
+      position: absolute;
+      top: -45%;
+      left: -60%;
+      width: 34%;
+      height: 190%;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.72), transparent);
+      transform: skewX(-22deg);
+      animation: nbaButtonShine 3.2s ease-in-out infinite;
+    }
+
+    .nbaMenu__category:nth-child(2)::after { animation-delay: .25s; }
+    .nbaMenu__category:nth-child(3)::after { animation-delay: .5s; }
+    .nbaMenu__category:nth-child(4)::after { animation-delay: .75s; }
+
+    .nbaMenu__category:hover,
+    .nbaMenu__category:focus-visible {
+      filter: brightness(1.1);
+      transform: translateY(-2px);
+      box-shadow: 0 7px 16px rgba(180,0,32,.38), inset 0 1px rgba(255,255,255,.4);
+      outline: none;
+    }
+
+    .nbaMenu__category:active { transform: translateY(0) scale(.98); }
+
+    .nbaMenu__category.nbaMenu__category--flash {
+      animation: nbaButtonFlash .42s ease-out;
+    }
+
+    /* แถบสถิติออนไลน์ & สมาชิก */
+    .nbaMenu__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      width: 86%;
+      gap: 6px;
+      margin: 0 auto;
+    }
+
+    .nbaMenu__stat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 0;
+      min-height: 38px;
+      padding: 7px 8px;
+      border: 1.5px solid rgba(255,255,255,.88);
+      border-radius: 999px;
+      color: var(--red-dark);
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+      background: rgba(255,237,241,.92);
+      box-shadow: 0 5px 15px rgba(180,0,32,.2), inset 0 1px 4px rgba(255,255,255,.9);
+      backdrop-filter: blur(5px);
+    }
+
+    .nbaMenu__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 15px;
+      margin-right: 4px;
+      font-size: 12px;
+    }
+
+    .nbaMenu__onlineDot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ff2748;
+      box-shadow: 0 0 8px rgba(255,39,72,.8);
+      animation: nbaOnlinePulse 1.4s ease-in-out infinite;
+    }
+
+    .nbaMenu__number {
+      margin-left: 3px;
+      color: #d0002f;
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+    }
+
+    @keyframes nbaOnlinePulse {
+      50% { transform: scale(1.12); box-shadow: 0 0 14px rgba(255,39,72,1); }
+    }
+
+    @keyframes nbaButtonFlash {
+      0%   { transform: scale(1); box-shadow: 0 4px 12px rgba(180,0,32,.28); }
+      45%  { transform: translateY(-3px) scale(1.06); box-shadow: 0 0 8px #fff, 0 0 16px rgba(255,35,67,.85); }
+      100% { transform: scale(1); box-shadow: 0 4px 12px rgba(180,0,32,.28); }
+    }
+
+    @keyframes nbaButtonShine {
+      0%, 18% { left: -60%; opacity: 0; }
+      28% { opacity: .9; }
+      52% { left: 130%; opacity: .65; }
+      62%, 100% { left: 130%; opacity: 0; }
+    }
+
+    @media (max-width: 520px) {
+      .nbaMenu { padding: 12px 10px 14px; }
+      .nbaMenu__categories { width: 92%; gap: 4px; margin-bottom: 10px; }
+      .nbaMenu__category { padding: 5px 2px; font-size: 10px; }
+      .nbaMenu__stats { width: 92%; gap: 4px; }
+      .nbaMenu__stat { min-height: 34px; padding: 6px 4px; font-size: 9px; }
+      .nbaMenu__icon { width: 12px; margin-right: 3px; font-size: 10px; }
+      .nbaMenu__onlineDot { width: 8px; height: 8px; }
+      .nbaMenu__number { margin-left: 2px; }
+    }
+
+    @media (max-width: 355px) {
+      .nbaMenu__category { font-size: 9px; }
+      .nbaMenu__stat { font-size: 10px; }
+    }
+  </style>
+
+  <!-- หมวดหมู่ -->
+  <nav class="nbaMenu__categories" aria-label="ประเภทเกม">
+    <button class="nbaMenu__category" type="button">หวย</button>
+    <button class="nbaMenu__category" type="button">สล็อต</button>
+    <button class="nbaMenu__category" type="button">บาคาร่า</button>
+    <button class="nbaMenu__category" type="button">คาสิโนออนไลน์</button>
+  </nav>
+
+  <!-- สถิติ -->
+  <div class="nbaMenu__stats">
+    <div class="nbaMenu__stat">
+      <span class="nbaMenu__icon"><span class="nbaMenu__onlineDot"></span></span>
+      <span>ออนไลน์ตอนนี้:</span>
+      <strong class="nbaMenu__number" id="nbaOnline">328,800</strong>
+    </div>
+
+    <div class="nbaMenu__stat">
+      <span class="nbaMenu__icon" aria-hidden="true">👥</span>
+      <span>สมาชิกทั้งหมด:</span>
+      <strong class="nbaMenu__number" id="nbaMembers">643,912</strong>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      /* ===== 1. ปรับแก้ตัวเลขเริ่มต้นตรงนี้ ===== */
+      let online = 328800;   // ตัวเลขคนออนไลน์เริ่มต้น
+      let members = 643912;  // ตัวเลขสมาชิกทั้งหมดเริ่มต้น
+
+      const onlineEl = document.getElementById('nbaOnline');
+      const membersEl = document.getElementById('nbaMembers');
+      const format = number => number.toLocaleString('en-US');
+
+      if (onlineEl) onlineEl.textContent = format(online);
+      if (membersEl) membersEl.textContent = format(members);
+
+      /* ทุก 2 วินาที สุ่มเพิ่ม 10–100 แล้วไล่นับขึ้นทีละ 1 */
+      let isCounting = false;
+
+      function countUpFast() {
+        if (isCounting || !onlineEl) return;
+        isCounting = true;
+
+        const amount = Math.floor(Math.random() * 91) + 10;
+        const target = online + amount;
+
+        const counter = setInterval(() => {
+          online += 1;
+          onlineEl.textContent = format(online);
+
+          if (online >= target) {
+            clearInterval(counter);
+            isCounting = false;
+          }
+        }, 15);
+      }
+
+      setInterval(countUpFast, 2000);
+
+      /* เอฟเฟกต์กระพริบแสงตอนกดปุ่มหมวดหมู่ */
+      document.querySelectorAll('.nbaMenu__category').forEach(button => {
+        button.addEventListener('click', () => {
+          button.classList.remove('nbaMenu__category--flash');
+          void button.offsetWidth;
+          button.classList.add('nbaMenu__category--flash');
+          setTimeout(() => button.classList.remove('nbaMenu__category--flash'), 430);
+        });
+      });
+    })();
+  </script>
+</div>
