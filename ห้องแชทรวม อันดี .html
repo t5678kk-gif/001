@@ -1,0 +1,271 @@
+<!-- ===== เริ่มต้น: วิดเจ็ตห้องแชทรวมโทนสีแดง ===== -->
+<div class="crRed" id="crRedChat">
+  <style>
+    .crRed, .crRed * { box-sizing: border-box; }
+    .crRed {
+      --cr-red: #ef233c;
+      --cr-deep: #850014;
+      --cr-dark: #120307;
+      --cr-panel: #21060c;
+      width: min(680px, 100%);
+      margin: 20px auto;
+      font-family: Tahoma, "Noto Sans Thai", Arial, sans-serif;
+      color: #fff;
+    }
+    .crRed__box {
+      overflow: hidden;
+      border: 1px solid rgba(255,72,93,.65);
+      border-radius: 18px;
+      background: linear-gradient(180deg,#25060d,#100205);
+      box-shadow: 0 0 26px rgba(239,35,60,.28), inset 0 0 20px rgba(239,35,60,.06);
+    }
+    .crRed__header {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 58px;
+      padding: 13px 16px;
+      background: linear-gradient(135deg,#720012,#d31331 55%,#7e0014);
+      border-bottom: 1px solid rgba(255,255,255,.18);
+      font-weight: 800;
+      box-shadow: 0 4px 18px rgba(0,0,0,.3);
+    }
+    .crRed__chatIcon {
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.14);
+      font-size: 18px;
+    }
+    .crRed__title { font-size: 17px; letter-spacing: .2px; }
+    .crRed__online {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-left: auto;
+      padding: 6px 9px;
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 99px;
+      background: rgba(25,0,5,.38);
+      font-size: 12px;
+      white-space: nowrap;
+    }
+    .crRed__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #62ff8d;
+      box-shadow: 0 0 9px #62ff8d;
+      animation: crRedPulse 1.4s ease-in-out infinite;
+    }
+    @keyframes crRedPulse { 50% { opacity: .45; transform: scale(.75); } }
+    .crRed__stage { position: relative; overflow: hidden; }
+    .crRed__stage::before,
+    .crRed__stage::after {
+      content: "";
+      position: absolute;
+      z-index: 2;
+      pointer-events: none;
+      opacity: .75;
+    }
+    .crRed__stage::before {
+      top: 0; bottom: 0; width: 2px;
+      background: linear-gradient(transparent,#ff5269,transparent);
+      animation: crRedScanX 5s ease-in-out infinite;
+    }
+    .crRed__stage::after {
+      left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg,transparent,#ff5269,transparent);
+      animation: crRedScanY 5s ease-in-out infinite;
+    }
+    @keyframes crRedScanX { 0%,100% { left: 0; opacity: 0; } 15%,35% { opacity: .8; } 45% { left: calc(100% - 2px); opacity: 0; } 46%,100% { left: calc(100% - 2px); opacity: 0; } }
+    @keyframes crRedScanY { 0%,45% { top: 0; opacity: 0; } 55%,75% { opacity: .8; } 95%,100% { top: calc(100% - 2px); opacity: 0; } }
+    .crRed__messages {
+      height: 355px;
+      overflow-y: auto;
+      padding: 15px 13px;
+      background:
+        radial-gradient(circle at 15% 10%,rgba(239,35,60,.13),transparent 34%),
+        linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px),
+        #120306;
+      background-size: auto,24px 24px,24px 24px,auto;
+      scrollbar-width: thin;
+      scrollbar-color: #bd1630 #25060d;
+    }
+    .crRed__msg { display: flex; gap: 9px; margin: 0 0 13px; animation: crRedEnter .3s ease both; }
+    .crRed__msg--me { flex-direction: row-reverse; }
+    @keyframes crRedEnter { from { opacity: 0; transform: translateY(8px); } }
+    .crRed__avatar {
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      overflow: hidden;
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255,77,99,.7);
+      border-radius: 50%;
+      background: #4a0b16;
+      font-size: 17px;
+      box-shadow: 0 0 10px rgba(239,35,60,.22);
+    }
+    .crRed__avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .crRed__body { min-width: 0; max-width: 78%; }
+    .crRed__name { display: block; margin: 0 0 4px; color: #ff9cac; font-size: 11px; }
+    .crRed__msg--me .crRed__name { text-align: right; color: #ffd9df; }
+    .crRed__bubble {
+      padding: 9px 11px;
+      border: 1px solid rgba(255,73,96,.24);
+      border-radius: 4px 13px 13px 13px;
+      background: rgba(60,8,18,.95);
+      color: #fff;
+      font-size: 13px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+    .crRed__msg--me .crRed__bubble {
+      border-radius: 13px 4px 13px 13px;
+      background: linear-gradient(135deg,#b50b27,#ef233c);
+      box-shadow: 0 4px 12px rgba(239,35,60,.22);
+    }
+    .crRed__time { display: block; margin-top: 4px; color: #a96975; font-size: 10px; }
+    .crRed__msg--me .crRed__time { text-align: right; color: #db9aa5; }
+    .crRed__inputRow {
+      display: flex;
+      gap: 9px;
+      padding: 12px;
+      border-top: 1px solid rgba(255,66,89,.2);
+      background: #100205;
+    }
+    .crRed__input {
+      min-width: 0;
+      flex: 1;
+      height: 43px;
+      padding: 0 13px;
+      border: 1px solid #5a1420;
+      border-radius: 11px;
+      outline: none;
+      background: #26070d;
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      transition: .2s ease;
+    }
+    .crRed__input::placeholder { color: #9b6670; }
+    .crRed__input:focus { border-color: #ef233c; box-shadow: 0 0 0 3px rgba(239,35,60,.14); }
+    .crRed__send {
+      min-width: 82px;
+      border: 0;
+      border-radius: 11px;
+      background: linear-gradient(135deg,#b40924,#ff304e);
+      color: #fff;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: 0 0 16px rgba(239,35,60,.38);
+      transition: transform .16s ease, filter .16s ease;
+    }
+    .crRed__send:hover { filter: brightness(1.12); transform: translateY(-1px); }
+    .crRed__send:active { transform: translateY(1px); }
+    @media (max-width: 480px) {
+      .crRed { margin: 12px auto; }
+      .crRed__box { border-radius: 14px; }
+      .crRed__header { padding: 10px 11px; }
+      .crRed__title { font-size: 15px; }
+      .crRed__messages { height: 320px; padding: 12px 9px; }
+      .crRed__online { font-size: 10px; padding: 5px 7px; }
+      .crRed__body { max-width: 80%; }
+      .crRed__inputRow { padding: 9px; gap: 7px; }
+      .crRed__send { min-width: 68px; }
+    }
+  </style>
+
+  <section class="crRed__box" aria-label="ห้องแชทรวม">
+    <header class="crRed__header">
+      <span class="crRed__chatIcon" aria-hidden="true">💬</span>
+      <span class="crRed__title">ห้องแชทรวม</span>
+      <span class="crRed__online"><i class="crRed__dot"></i><strong data-online>1,284</strong> คนออนไลน์</span>
+    </header>
+    <div class="crRed__stage">
+      <div class="crRed__messages" data-messages aria-live="polite"></div>
+    </div>
+    <form class="crRed__inputRow" data-form>
+      <input class="crRed__input" data-input maxlength="180" autocomplete="off" placeholder="ร่วมพูดคุยกับลูกค้าคนอื่นๆ...">
+      <button class="crRed__send" type="submit">➤ ส่ง</button>
+    </form>
+  </section>
+
+  <script>
+  (function () {
+    const root = document.getElementById('crRedChat');
+    if (!root) return;
+    const box = root.querySelector('[data-messages]');
+    const form = root.querySelector('[data-form]');
+    const input = root.querySelector('[data-input]');
+    const online = root.querySelector('[data-online]');
+
+    /* --- รายชื่อและข้อความจำลองที่บอทจะส่ง --- */
+    const people = [
+      { name: 'ลูกค้า VIP', avatar: '', text: 'วันนี้มีใครได้โบนัสบ้างครับ' },
+      { name: 'มินนี่', avatar: '', text: 'เพิ่งเข้ามาค่ะ บรรยากาศคึกคักมาก' },
+      { name: 'ต้นสายแดง', avatar: '', text: 'แอดมินตอบเร็วดีครับ' },
+      { name: 'คุณนัท', avatar: '', text: 'ขอให้วันนี้เป็นวันที่ดีของทุกคนครับ' },
+      { name: 'เมย์', avatar: '', text: 'เข้ามาทักทายค่ะ 😊' },
+      { name: 'บอล', avatar: '', text: 'ระบบใช้งานง่ายดีครับ' }
+    ];
+
+    const escapeHtml = (value) => {
+      const el = document.createElement('div');
+      el.textContent = String(value);
+      return el.innerHTML;
+    };
+    const timeNow = () => new Date().toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+    const avatarHtml = (person) => person.avatar
+      ? '<img src="' + escapeHtml(person.avatar) + '" alt="" onerror="this.parentNode.textContent=\'👤\'">'
+      : '👤';
+
+    function addMessage(person, isMe) {
+      const row = document.createElement('div');
+      row.className = 'crRed__msg' + (isMe ? ' crRed__msg--me' : '');
+      row.innerHTML =
+        '<div class="crRed__avatar">' + avatarHtml(person) + '</div>' +
+        '<div class="crRed__body"><span class="crRed__name">' + escapeHtml(person.name) + '</span>' +
+        '<div class="crRed__bubble">' + escapeHtml(person.text) + '</div>' +
+        '<span class="crRed__time">' + timeNow() + '</span></div>';
+      box.appendChild(row);
+      while (box.children.length > 18) box.firstElementChild.remove();
+      box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
+    }
+
+    // แสดงข้อความเริ่มต้น 4 ข้อความแรก
+    people.slice(0, 4).forEach((person, index) => setTimeout(() => addMessage(person, false), index * 180));
+
+    // สุ่มส่งข้อความใหม่ทุก 6.5 วินาที
+    let messageIndex = 4;
+    setInterval(() => {
+      addMessage(people[messageIndex % people.length], false);
+      messageIndex++;
+    }, 6500);
+
+    // ปรับตัวเลขคนออนไลน์ขึ้น-ลงเล็กน้อยทุก 3.5 วินาที
+    setInterval(() => {
+      const current = Number(online.textContent.replace(/,/g, '')) || 1284;
+      online.textContent = Math.max(900, current + Math.floor(Math.random() * 15) - 7).toLocaleString('th-TH');
+    }, 3500);
+
+    // ผู้ใช้พิมพ์ส่งข้อความได้จริง (จะขึ้นทางฝั่งขวา)
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage({ name: 'คุณ', avatar: '', text }, true);
+      input.value = '';
+      input.focus();
+    });
+  })();
+  </script>
+</div>
+<!-- ===== สิ้นสุด: วิดเจ็ตห้องแชทรวม ===== -->
