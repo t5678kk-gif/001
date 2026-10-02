@@ -1,0 +1,74 @@
+<!-- === ส่วนของแอนิเมชันเหรียญตกสำหรับ mssg.me === -->
+<style>
+  .falling-coins-wrap {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* ห้ามบังคลิกปุ่มบนหน้าเว็บ */
+    overflow: hidden;
+    z-index: 9999; /* ลอยอยู่ชั้นบนสุด */
+  }
+
+  .coin-item {
+    position: absolute;
+    top: -50px;
+    user-select: none;
+    animation-name: coinFall;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+
+  /* คีย์เฟรมการตกและการหมุน */
+  @keyframes coinFall {
+    0% {
+      top: -10%;
+      transform: translateX(0) rotate(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: translateX(25px) rotate(180deg);
+    }
+    100% {
+      top: 105%;
+      transform: translateX(-25px) rotate(360deg);
+      opacity: 0.7;
+    }
+  }
+
+  /* กระจายตำแหน่ง ความเร็ว และขนาดของเหรียญแต่ละชิ้น */
+  .coin-item:nth-child(1)  { left: 5%;  font-size: 24px; animation-duration: 5s;  animation-delay: 0s; }
+  .coin-item:nth-child(2)  { left: 12%; font-size: 18px; animation-duration: 7s;  animation-delay: 2s; }
+  .coin-item:nth-child(3)  { left: 20%; font-size: 28px; animation-duration: 6s;  animation-delay: 4s; }
+  .coin-item:nth-child(4)  { left: 28%; font-size: 22px; animation-duration: 8s;  animation-delay: 1s; }
+  .coin-item:nth-child(5)  { left: 35%; font-size: 26px; animation-duration: 5.5s; animation-delay: 3s; }
+  .coin-item:nth-child(6)  { left: 45%; font-size: 32px; animation-duration: 6.5s; animation-delay: 0.5s; }
+  .coin-item:nth-child(7)  { left: 52%; font-size: 20px; animation-duration: 7.5s; animation-delay: 2.5s; }
+  .coin-item:nth-child(8)  { left: 60%; font-size: 27px; animation-duration: 5s;  animation-delay: 4.5s; }
+  .coin-item:nth-child(9)  { left: 68%; font-size: 22px; animation-duration: 8.5s; animation-delay: 1.5s; }
+  .coin-item:nth-child(10) { left: 75%; font-size: 30px; animation-duration: 6s;  animation-delay: 3.5s; }
+  .coin-item:nth-child(11) { left: 82%; font-size: 20px; animation-duration: 7s;  animation-delay: 0.8s; }
+  .coin-item:nth-child(12) { left: 90%; font-size: 25px; animation-duration: 5.8s; animation-delay: 2.2s; }
+  .coin-item:nth-child(13) { left: 15%; font-size: 24px; animation-duration: 9s;  animation-delay: 5s; }
+  .coin-item:nth-child(14) { left: 40%; font-size: 22px; animation-duration: 6.2s; animation-delay: 4s; }
+  .coin-item:nth-child(15) { left: 85%; font-size: 28px; animation-duration: 7.2s; animation-delay: 3s; }
+</style>
+
+<div class="falling-coins-wrap" aria-hidden="true">
+  <span class="coin-item">💰</span>
+  <span class="coin-item">💵</span>
+  <span class="coin-item">🏆</span>
+  <span class="coin-item">💸</span>
+  <span class="coin-item">💰</span>
+  <span class="coin-item">💵</span>
+  <span class="coin-item">🏆</span>
+  <span class="coin-item">💸</span>
+  <span class="coin-item">💰</span>
+  <span class="coin-item">💵</span>
+  <span class="coin-item">🏆</span>
+  <span class="coin-item">💸</span>
+  <span class="coin-item">💰</span>
+  <span class="coin-item">💵</span>
+  <span class="coin-item">🏆</span>
+</div>
