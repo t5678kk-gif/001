@@ -1,0 +1,277 @@
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;600&display=swap">
+
+<style>
+.custom-cta-box {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 6px 0;
+  font-family: 'Kanit', sans-serif;
+  box-sizing: border-box;
+  transform: translateZ(0);
+}
+
+.custom-cta-btn {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  padding: 2px;
+  border-radius: 99px;
+  text-decoration: none;
+  display: block;
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition: transform .25s ease, box-shadow .25s ease;
+  transform: translateZ(0);
+}
+
+.custom-cta-btn:hover {
+  transform: translateY(-2px) scale(1.01);
+}
+
+.custom-cta-btn:active {
+  transform: scale(.98);
+}
+
+.cta-gold {
+  background: linear-gradient(135deg, #fff7b2, #e09f00 25%, #ffea79 50%, #996200 75%, #ffd438);
+  box-shadow: 0 8px 25px rgba(0,0,0,.6), 0 0 20px rgba(255,180,0,.35);
+}
+
+.cta-green {
+  background: linear-gradient(135deg, #b9f6ca, #00c853 25%, #69f0ae 50%, #00701a 75%, #00e676);
+  box-shadow: 0 8px 25px rgba(0,0,0,.6), 0 0 20px rgba(0,230,118,.35);
+}
+
+.custom-cta-in {
+  position: relative;
+  min-height: 80px;
+  border-radius: 99px;
+  display: grid;
+  grid-template-columns: 60px 1fr 36px;
+  align-items: center;
+  padding: 6px 14px;
+  overflow: hidden;
+  box-sizing: border-box;
+  transform: translateZ(0);
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+}
+
+.cta-gold .custom-cta-in {
+  background: radial-gradient(ellipse at 50% 50%, rgba(255,195,0,.15), transparent 70%), linear-gradient(180deg, #181207, #050402);
+}
+
+.cta-green .custom-cta-in {
+  background: radial-gradient(ellipse at 50% 50%, rgba(0,230,118,.15), transparent 70%), linear-gradient(180deg, #0b1a10, #030805);
+}
+
+.custom-cta-in::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  left: 0;
+  width: 55%;
+  height: 220%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.4), #fff, rgba(255,255,255,.4), transparent);
+  transform: translate3d(-200%, 0, 0) rotate(22deg);
+  animation: ctaBeam 3.6s infinite;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.cta-green .custom-cta-in::before {
+  animation-delay: -1.8s;
+}
+
+.custom-cta-ico {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ctaWiggle 2.8s infinite;
+  flex-shrink: 0;
+  z-index: 2;
+  will-change: transform;
+}
+
+.cta-gold .custom-cta-ico {
+  background: radial-gradient(circle at 35% 30%, #fff7b2, #ffd000 40%, #996200);
+  box-shadow: 0 0 0 2px #fff2a3, 0 0 0 4px #6e4600, 0 0 15px rgba(255,200,0,.7);
+}
+
+.cta-green .custom-cta-ico {
+  background: radial-gradient(circle at 35% 30%, #69f0ae, #00e676 40%, #008f3a);
+  box-shadow: 0 0 0 2px #b9f6ca, 0 0 0 4px #004d20, 0 0 15px rgba(0,230,118,.7);
+}
+
+.custom-cta-ico svg {
+  width: 34px;
+  height: 34px;
+}
+
+.cta-gold .custom-cta-ico svg { fill: #140d00; }
+.cta-green .custom-cta-ico svg { fill: #fff; }
+
+.custom-cta-txt {
+  text-align: center;
+  padding: 0 4px;
+  z-index: 2;
+}
+
+.custom-cta-t {
+  font-size: clamp(20px, 5vw, 25px);
+  font-weight: 600;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cta-gold .custom-cta-t {
+  background-image: linear-gradient(115deg, #fff7b2, #ffd000 25%, #fff 50%, #ffea79 75%, #d48b00);
+  filter: drop-shadow(0 0 6px rgba(255,200,0,.6));
+}
+
+.cta-green .custom-cta-t {
+  background-image: linear-gradient(115deg, #b9f6ca, #00e676 25%, #fff 50%, #69f0ae 75%, #00a844);
+  filter: drop-shadow(0 0 6px rgba(0,230,118,.6));
+}
+
+.custom-cta-s {
+  font-size: clamp(13px, 3.2vw, 15px);
+  color: #eee;
+  margin-top: 2px;
+}
+
+.custom-cta-s span {
+  font-weight: 600;
+  display: inline-block;
+  animation: ctaBounce 2s infinite;
+  will-change: transform;
+}
+
+.cta-gold .custom-cta-s span { color: #ffd000; }
+.cta-green .custom-cta-s span { color: #00e676; animation-delay: -1s; }
+
+.custom-cta-arr {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  z-index: 2;
+  transition: transform .2s ease, background .2s ease;
+}
+
+.cta-gold .custom-cta-arr {
+  background: rgba(255,208,0,.15);
+  border: 1.5px solid rgba(255,208,0,.5);
+  color: #ffd000;
+}
+
+.cta-green .custom-cta-arr {
+  background: rgba(0,230,118,.15);
+  border: 1.5px solid rgba(0,230,118,.5);
+  color: #00e676;
+}
+
+.custom-cta-btn:hover .custom-cta-arr { transform: scale(1.1); }
+.cta-gold:hover .custom-cta-arr { background: #ffd000; color: #140d00; }
+.cta-green:hover .custom-cta-arr { background: #00e676; color: #041208; }
+
+.custom-cta-arr svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+@keyframes ctaBeam {
+  0%, 15% { transform: translate3d(-200%, 0, 0) rotate(22deg); }
+  60%, 100% { transform: translate3d(380%, 0, 0) rotate(22deg); }
+}
+
+@keyframes ctaBounce {
+  0%, 50%, 100% { transform: translate3d(0,0,0); }
+  12% { transform: translate3d(0, -4px, 0) scale(1.15); }
+  24% { transform: translate3d(0,0,0); }
+}
+
+@keyframes ctaWiggle {
+  0%, 100% { transform: rotate(0deg); }
+  6% { transform: scale(1.15) rotate(-12deg); }
+  12% { transform: scale(1.15) rotate(12deg); }
+  18% { transform: rotate(0deg); }
+}
+
+@media (max-width: 480px) {
+  .custom-cta-in {
+    grid-template-columns: 48px 1fr 30px;
+    min-height: 70px;
+    padding: 4px 8px;
+  }
+  .custom-cta-ico { width: 46px; height: 46px; }
+  .custom-cta-ico svg { width: 28px; height: 28px; }
+  .custom-cta-arr { width: 28px; height: 28px; }
+}
+</style>
+
+<div class="custom-cta-box notranslate" translate="no">
+  <a href="https://apm2.angpao.me/register" 
+target="_blank" rel="noopener noreferrer" class="custom-cta-btn cta-gold" onclick="sEv('Contact');">
+    <div class="custom-cta-in">
+      <div class="custom-cta-ico">
+        <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+      </div>
+      <div class="custom-cta-txt">
+        <div class="custom-cta-t">สมัครสมาชิก</div>
+        <div class="custom-cta-s">ผ่านระบบ <span>แตะ</span></div>
+      </div>
+      <div class="custom-cta-arr">
+        <svg viewBox="0 0 24 24"><path d="M8.6 16.6L13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg>
+      </div>
+    </div>
+  </a>
+</div>
+
+<div class="custom-cta-box notranslate" translate="no">
+  <a href="https://lin.ee/6Iz2bvz" target="_blank" rel="noopener noreferrer" class="custom-cta-btn cta-green" onclick="sEv('Contact');">
+    <div class="custom-cta-in">
+      <div class="custom-cta-ico">
+        <svg viewBox="0 0 24 24"><path d="M19.3 10.5h-1.7v1.1h1.7c.3 0 .6.3.6.6s-.3.6-.6.6h-2.3c-.3 0-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6h2.3c.3 0 .6.3.6.6s-.3.6-.6.6h-1.7v1.2h1.7c.3 0 .6.3.6.6s-.3.6-.6.6zm-3.8 3c0 .3-.2.5-.5.6h-.2c-.2 0-.4-.1-.5-.3l-2.4-3.3v2.9c0 .3-.3.6-.6.6s-.6-.3-.6-.6V8.1c0-.3.2-.5.5-.6.2 0 .4.1.5.3l2.4 3.3V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.8zm-5.7 0c0 .3-.3.6-.6.6s-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.8zm-2.5.6H4.9c-.3 0-.6-.3-.6-.6V8.1c0-.3.3-.6.6-.6s.6.3.6.6v4.2h1.8c.3 0 .6.3.6.6s-.3.6-.6.6M24 10.3C24 4.9 18.6.6 12 .6S0 4.9 0 10.3c0 4.8 4.3 8.8 10 9.6.4.1.9.3 1.1.6.1.3.1.8 0 1.1l-.2 1c0 .3-.2 1.2 1 .6 1.3-.5 6.9-4 9.4-7 1.8-1.7 2.7-3.5 2.7-5.3"/></svg>
+      </div>
+      <div class="custom-cta-txt">
+        <div class="custom-cta-t">ติดต่อ Admin</div>
+        <div class="custom-cta-s">สอบถามข้อมูล <span>กดที่นี่</span></div>
+      </div>
+      <div class="custom-cta-arr">
+        <svg viewBox="0 0 24 24"><path d="M8.6 16.6L13.2 12 8.6 7.4 10 6l6 6-6 6z"/></svg>
+      </div>
+    </div>
+  </a>
+</div>
+
+<script>
+var cEv = {};
+function sEv(n) {
+  if (cEv[n]) return;
+  cEv[n] = true;
+  setTimeout(function() { cEv[n] = false; }, 1500);
+  try {
+    var f = window.fbq;
+    if (!f && window.parent) {
+      try { f = window.parent.fbq; } catch(e) {}
+    }
+    if (!f && window.top) {
+      try { f = window.top.fbq; } catch(e) {}
+    }
+    if (typeof f === 'function') {
+      f('track', n);
+    }
+  } catch(e) {}
+}
+</script>
